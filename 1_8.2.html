@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 引入Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>沉思的个人博客</title>
+    <style>
+        /* 页面基础样式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('123.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            position: relative; /* 为侧边栏按钮定位 */
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8); /* 半透明白色背景 */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px; /* 圆角边框 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
+            position: relative; /* 为按钮定位 */
+            display:none
+        }
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        /* 返回顶部按钮样式 */
+        #back-to-top {
+            display: none; /* 默认隐藏 */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #5cb85c;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        /* 抽屉式侧边栏样式 */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #111;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            position: absolute; /* 侧边栏按钮定位 */
+            top: 10px;
+            left: 10px;
+        }
+        .openbtn:hover {
+            background-color: #444;
+        }
+        /* 管理员登录链接样式 */
+        #admin-login {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            background-color: #5cb85c;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        #admin-login:hover {
+            background-color: #4cae4c;
+        }
+        /* 添加文章和资源按钮样式 */
+        .add-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #5cb85c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: none; /* 默认隐藏 */
+        }
+        .add-btn:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>沉思的个人博客</h1>
+        <div id="openbtn" class="openbtn" onclick="openNav()">&#9776;</div>
+        <a href="#" id="admin-login" onclick="adminLogin()">管理员登录</a>
+    </div>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#about-me" onclick="showContent('about-me')">关于我</a>
+        <a href="#blog-posts" onclick="showContent('blog-posts')">博客文章</a>
+        <a href="#contact" onclick="showContent('contact')">资源分享</a>
+    </div>
+    <div class="container" id="about-me">
+        <h2>关于我</h2>
+        <p>姓名：陈思源</p>
+        <p>性别：男</p>
+        <p>联系方式：181 5685 2696</p>
+        <p>所属公司：安徽省沉思电子商务有限公司</p>
+        <p>职位：高级销售</p>
+        <p>快手：chensijieshuo666</p>
+        <p>Email：2369100028@qq.com</p>
+    </div>
+    <div class="container" id="blog-posts">
+        <h2>博客文章</h2>
+        <a href="https://mp.weixin.qq.com/s/-kCZCtkwhAgRvjL95pGAzw">超体角色动画 I 矿区爆炸的真相竟是！？</a>
+        <div class="add-btn" id="add-blog-post-btn" onclick="addBlogPost()">添加文章</div>
+    </div>
+    <div class="container" id="contact">
+        <h2>资源分享</h2>
+        <div class="add-btn" id="add-resource-btn" onclick="addResource()">添加资源</div>
+    </div>
+    <div class="footer">
+        <p>版权所有 &copy; 2024 沉思的个人博客</p>
+    </div>
+    <!-- 返回顶部按钮 -->
+    <div id="back-to-top">
+        <i class="fas fa-arrow-up" onclick="scrollToTop()"></i>
+    </div>
+
+    <!-- 脚本部分 -->
+    <script>
+        // ... 其他函数保持不变 ...
+
+        // 添加文章
+        function addBlogPost() {
+            var name = prompt("请输入文章名称:");
+            var link = prompt("请输入文章链接:");
+            if (name && link) {
+                var newPost = '<a href="' + link + '">' + name + '</a>';
+                document.getElementById("blog-posts").insertAdjacentHTML('beforeend', newPost);
+            }
+        }
+
+        // 添加资源
+        function addResource() {
+            var name = prompt("请输入资源名称:");
+            var link = prompt("请输入资源链接:");
+            if (name && link) {
+                var newResource = '<a href="' + link + '">' + name + '</a>';
+                document.getElementById("contact").insertAdjacentHTML('beforeend', newResource);
+            }
+        }
+
+        // 为按钮添加事件监听器
+        document.getElementById("add-blog-post-btn").addEventListener("click", addBlogPost);
+        document.getElementById("add-resource-btn").addEventListener("click", addResource);
+
+        // ... 其他函数保持不变 ...
+    </script>
+
+    <script>
+        // 打开抽屉式侧边栏
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+        // 关闭抽屉式侧边栏
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+        // 显示内容
+        function showContent(id) {
+            // 隐藏所有内容区域
+            var containers = document.getElementsByClassName('container');
+            for (var i = 0; i < containers.length; i++) {
+                containers[i].style.display = 'none';
+            }
+            // 显示对应的内容区域
+            document.getElementById(id).style.display = 'block';
+            // 关闭侧边栏
+            closeNav();
+        }
+        // 返回顶部
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        // 管理员登录
+        function adminLogin() {
+            var adminUsername = "admin";
+            var adminPassword = "admin123"; // 这里应该使用安全的验证方式，例如密码加密和安全存储
+            var username = prompt("请输入管理员用户名:");
+            var password = prompt("请输入管理员密码:");
+
+            if (username === adminUsername && password === adminPassword) {
+                // 显示添加内容的按钮
+                document.getElementById("add-blog-post-btn").style.display = "block";
+                document.getElementById("add-resource-btn").style.display = "block";
+                alert("登录成功！");
+            } else {
+                alert("登录失败，用户名或密码错误。");
+            }
+        }
+    </script>
+</body>
+</html>
